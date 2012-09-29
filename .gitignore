@@ -1,0 +1,12 @@
+.DS_Store
+.project
+.pydevproject
+.idea/*
+nbproject/*
+venv/*
+venv
+build/*
+
+*.pyc
+*.db
+*.log
