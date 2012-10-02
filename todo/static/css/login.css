@@ -1,0 +1,14 @@
+.container {
+    width: 380px;
+    display: block;
+    margin: 85px auto 0 auto;
+
+    background: #f9f9f9;
+
+    box-shadow:  0px 0px 2px #dadada, inset 0px -3px 0px #e6e6e6;
+}
+
+.container h1 {
+    margin-bottom: .4em;
+    color: #263849;
+}

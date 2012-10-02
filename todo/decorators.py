@@ -14,7 +14,7 @@ def ajax_required(f):
 def requires_login(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        if g.user is None:
+        if g.usuario is None:
             flash(u'Necesitas estar logueado para acceder esta pagina')
             return redirect(url_for('login', next=request.path))
         return f(*args, **kwargs)

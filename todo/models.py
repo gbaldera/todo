@@ -9,8 +9,8 @@ class Usuario(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50))
-    email = db.Column(db.String(120), unique=True)
-    password = db.Column(db.String(20))
+    email = db.Column(db.String(30), unique=True)
+    password = db.Column(db.String(60))
     todos = db.relationship('Todo', backref=db.backref('usuario', lazy='dynamic'))
 
     def __init__(self, nombre=None, email=None, password=None):
