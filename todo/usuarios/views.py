@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, g, url_for, redirect, abort, render_template, session, flash
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask import  Blueprint, request, g, url_for, redirect, render_template, session, flash, abort
 from werkzeug.security import check_password_hash
-from .decorators import requires_login
-from .forms import LoginForm
+from todo.usuarios.forms import LoginForm
+from todo.usuarios.models import Usuario
+from todo.decorators import requires_login
+from todo import db
 
-app = Flask(__name__)
-app.config.from_object('config') #configurar app usando variables en config.py
+usuarios = Blueprint('usuarios', __name__, url_prefix='/usuarios')
 
-db = SQLAlchemy(app)
-
-#importamos modelos luego de crear el objecto db ya que es una dependencia circular
-from .models import Usuario, Todo
-
-@app.before_request
+@usuarios.before_request
 def before_request():
     """
     Si el usuario esta logueado, buscarlo en la db
@@ -24,7 +19,7 @@ def before_request():
     if 'usuario_id' in session:
         g.usuario = Usuario.query.get(session['usuario_id'])
 
-@app.route('/login', methods=['GET', 'POST'])
+@usuarios.route('/login', methods=['GET', 'POST'])
 def login():
     """
     Login para usuarios
@@ -32,7 +27,7 @@ def login():
 
     #verificar si esta logueado
     if g.usuario is not None:
-        return redirect(url_for('index'))
+        return redirect(url_for('.index'))
 
     # inicializamos la validacion
     form = LoginForm(request.form)
@@ -43,24 +38,21 @@ def login():
 
         if usuario and check_password_hash(usuario.password, form.password.data):
             session['usuario_id'] = usuario.id
-            return redirect(url_for('index'))
+            return redirect(url_for('.index'))
         flash(u'Email o Contrasena incorrectos', 'error')
 
     return render_template('login.html', form=form)
 
-@app.route('/logout')
+@usuarios.route('/logout')
 def logout():
     """
     Desloguear usuario
     """
     if g.usuario is not None:
         session.pop('usuario_id', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('.login'))
 
-@app.route('/')
+@usuarios.route('/')
 @requires_login
 def index():
     return 'Hello World!'
-
-if __name__ == '__main__':
-    app.run()

@@ -21,7 +21,7 @@
 
     <div class="content clearfix">
 
-        <form action="{{ url_for('login') }}" method="post" accept-charset="utf-8">
+        <form action="{{ url_for('usuarios.login') }}" method="post" accept-charset="utf-8">
 
             {{ form.csrf_token }}
             <h1>Entrar</h1>
@@ -38,20 +38,6 @@
                 {% from "macros/form.html" import render_field %}
                 {{ render_field(form.email) }}
                 {{ render_field(form.password) }}
-
-                <!--<div class="field">
-                    <label for="email">Usuario:</label>
-                    <input type="text" id="email" name="email" value="" placeholder="Email"
-                           class="login username-field"/>
-                </div>-->
-                <!-- /field -->
-
-                <!--<div class="field">
-                    <label for="password">Contrase&ntilde;a:</label>
-                    <input type="password" id="password" name="password" value="" placeholder="Contrase&ntilde;a"
-                           class="login password-field"/>
-                </div>-->
-                <!-- /password -->
 
             </div>
             <!-- /login-fields -->

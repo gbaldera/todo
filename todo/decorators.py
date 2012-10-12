@@ -16,7 +16,7 @@ def requires_login(f):
     def decorated(*args, **kwargs):
         if g.usuario is None:
             flash(u'Necesitas estar logueado para acceder esta pagina')
-            return redirect(url_for('login', next=request.path))
+            return redirect(url_for('usuarios.login', next=request.path))
         return f(*args, **kwargs)
 
     return decorated

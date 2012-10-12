@@ -1,6 +1,6 @@
 __author__ = 'gbaldera'
 
-from core import db
+from todo import db
 from datetime import datetime
 
 class Usuario(db.Model):
