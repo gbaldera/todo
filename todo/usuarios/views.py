@@ -27,7 +27,7 @@ def login():
 
     #verificar si esta logueado
     if g.usuario is not None:
-        return redirect(url_for('.index'))
+        return redirect(url_for('core.index'))
 
     # inicializamos la validacion
     form = LoginForm(request.form)
@@ -38,7 +38,7 @@ def login():
 
         if usuario and check_password_hash(usuario.password, form.password.data):
             session['usuario_id'] = usuario.id
-            return redirect(url_for('.index'))
+            return redirect(url_for('core.index'))
         flash(u'Email o Contrasena incorrectos', 'error')
 
     return render_template('login.html', form=form)
@@ -52,7 +52,23 @@ def logout():
         session.pop('usuario_id', None)
     return redirect(url_for('.login'))
 
-@usuarios.route('/')
-@requires_login
-def index():
-    return 'Hello World!'
+def prueba(data):
+    #users = Usuario.query.all()
+    aceptar = ['nombre', 'email', 'id']
+    lista = []
+    uno = False
+
+    if not isinstance(data, list):
+        data = [data]
+        uno = True
+
+    for obj in data:
+        dit = dict()
+        for attr in dir(obj):
+            if attr in aceptar:
+                dit[attr] = getattr(obj, attr, None)
+
+        if len(dit) > 0:
+            lista.append(dit)
+
+    return lista[0] if uno else lista

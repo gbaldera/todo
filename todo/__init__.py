@@ -9,14 +9,12 @@ app.config.from_object('config') #configurar app usando variables en config.py
 db = SQLAlchemy(app)
 
 # importamos modelos luego de crear el objecto db ya que es una dependencia circular
+from todo.core.views import mod
 from todo.usuarios.views import usuarios
 
 # registrar blueprints
+app.register_blueprint(mod)
 app.register_blueprint(usuarios)
-
-@app.route('/')
-def index():
-    return 'Hello World!'
 
 if __name__ == '__main__':
     app.run()
